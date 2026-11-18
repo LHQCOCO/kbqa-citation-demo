@@ -1,0 +1,14 @@
+私有知识库问答运行手册
+
+单次问答命令是 python -m cls.scenarios.kbqa.cli。
+批量评测命令是 python -m cls.scenarios.kbqa.cli --eval samples/kb/qa_set.jsonl。
+运行数据默认写在项目下的 data 目录，可用环境变量 CLS_DATA_DIR 指向其他位置。
+trace 默认写入 data/agent_traces，每个 run 一个 JSONL 文件。
+命令行参数 --min-score 控制最低检索分，--min-coverage 控制最低词覆盖。
+把 --min-score 调高会让系统更早拒答。
+把 --min-coverage 调高会要求答案句子覆盖更多问题词。
+如果报错知识库为空，说明入库步骤没有成功，先确认 --docs 指向的目录里有 md 或 txt。
+如果引用偏移漂移，说明文档在入库后被修改，需要重新入库。
+如果答案被拒答，先看原因码与实测值，再决定是否调整阈值。
+本场景不联网、不下载模型、不需要 API key。
+所有检索与回答都在本机进程内完成。

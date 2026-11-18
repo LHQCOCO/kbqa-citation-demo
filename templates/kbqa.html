@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>私有知识库问答 · 本地演示</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='kbqa.css') }}">
+</head>
+<body class="k-page">
+<svg class="svg-sprite" aria-hidden="true">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5.4c0 4.3-2.9 7.8-7 9.6-4.1-1.8-7-5.3-7-9.6V6l7-3z"/><path d="M8.6 12.2l2.2 2.2 4.4-4.6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l9.5 17h-19z"/><path d="M12 9v5.5M12 17.5v.2"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h6M10 16h6"/></symbol>
+</svg>
+
+<header class="topbar">
+  <a class="brand" href="/">
+    <span class="brand-mark"><svg><use href="#i-shield"/></svg></span>
+    <span class="brand-text"><strong>Contract <em>LocalScan</em></strong><small>私有知识库问答 · 本地演示</small></span>
+  </a>
+  <div class="topbar-center">
+    <span class="topbar-rule"></span>
+    <span class="topbar-note">每次请求真实运行检索与作答 · 不读预置结果 · 数据不出本机</span>
+  </div>
+  <div class="topbar-right">
+    <span class="pill privacy"><i></i>数据不出本机</span>
+    <a class="pill model" href="/"><span class="dot"></span>返回合同工作台</a>
+  </div>
+</header>
+
+<main class="kmain">
+
+  <section class="khero">
+    <div class="khero-copy">
+      <div class="eyebrow"><span></span>KBQA · RETRIEVAL &amp; REFUSAL DEMO</div>
+      <h1>私有知识库问答</h1>
+      <p>输入一个问题，页面会真实跑一遍「入库 → 混合检索 → 抽取原文句子作答 → 引用校验」：列出本次命中的 Top-K 片段及其字符偏移与分数，展示最高关键词覆盖率（问句先剔除疑问词与停用词，再算命中关键词占比）；没有依据时按 <code>NO_HITS</code> / <code>LOW_SCORE</code> / <code>LOW_COVERAGE</code> 拒答，并给出阈值与实测值。所有结论都来自本次运行，失败也照实显示。</p>
+      <div class="khero-tags">
+        <span class="ktag">复用同一套 AgentRuntime</span>
+        <span class="ktag">BM25 + 字符 n-gram</span>
+        <span class="ktag">引用可回溯到原文 span</span>
+      </div>
+    </div>
+    <aside class="kstatus">
+      <div class="kstatus-head">本次语料与阈值</div>
+      <div class="kstatus-row"><span>语料目录</span><b><code>{{ corpus.dir }}</code></b></div>
+      <div class="kstatus-row"><span>语料规模</span><b>{{ corpus.docs }} 篇 / {{ corpus.chunks }} 个片段</b></div>
+      <div class="kstatus-row"><span>top_k</span><b>{{ boundaries.top_k }}</b></div>
+      <div class="kstatus-row"><span>min_score</span><b>{{ boundaries.min_score }}</b></div>
+      <div class="kstatus-row"><span>min_coverage</span><b>{{ boundaries.min_coverage }}</b></div>
+      <div class="kstatus-row"><span>max_claims</span><b>{{ boundaries.max_claims }}</b></div>
+      <p class="kstatus-note">覆盖率按问题关键词计算（剔除「哪些 / 多少 / 如何」等疑问词与停用词）。阈值是默认值，本页不提供调参入口；改阈值后的效果见下方边界说明里的实测记录。</p>
+    </aside>
+  </section>
+
+  <section class="panel kform-panel">
+    <div class="panel-head slim">
+      <div>
+        <div class="eyebrow"><span></span>ASK</div>
+        <h2>输入问题</h2>
+      </div>
+      <span class="badge-soft">检索与作答都在本机完成</span>
+    </div>
+    {% if error %}<div class="kerror"><svg><use href="#i-alert"/></svg>{{ error }}</div>{% endif %}
+    <form class="kform" method="post" action="{{ url_for('kbqa.kbqa_ask') }}">
+      <label class="kfield">
+        <span>问题 <em>必填 · 不超过 {{ max_question_chars }} 字</em></span>
+        <textarea name="question" rows="3" placeholder="例如：默认预算包含多少个步骤和多少次工具调用？">{{ question }}</textarea>
+      </label>
+      <div class="kactions">
+        <button class="btn primary lg" type="submit">提问</button>
+        <span class="kcost">每次提问都会重新入库并检索，通常 1 秒内完成</span>
+      </div>
+    </form>
+    <div class="kexamples">
+      <div class="kexamples-head">示例问题（点击直接提问）</div>
+      <div class="kexamples-list">
+        {% for item in examples %}
+        <form method="post" action="{{ url_for('kbqa.kbqa_ask') }}" class="kexample">
+          <input type="hidden" name="question" value="{{ item.question }}">
+          <button type="submit">{{ item.question }}</button>
+          <small>{{ item.note }}</small>
+        </form>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% if result %}
+  <section class="kmeta">
+    <div><span>run_id</span><b>{{ result.run_id }}</b></div>
+    <div><span>状态</span><b>{{ result.status }} / {{ result.stop_reason }}</b></div>
+    <div><span>步骤 / 工具调用</span><b>{{ result.metrics.get('steps', 0) }} / {{ result.metrics.get('tool_calls', 0) }}</b></div>
+    <div><span>耗时</span><b>{{ result.metrics.get('wall_ms', 0) }} ms</b></div>
+    <div><span>入库</span><b>{{ result.corpus.get('docs', 0) }} 篇 / {{ result.corpus.get('chunks', 0) }} 片段</b></div>
+  </section>
+
+  <section class="kcounts">
+    <div class="kcount"><span>命中片段</span><b>{{ result.hits|length }}</b><small>top_k={{ boundaries.top_k }}</small></div>
+    <div class="kcount"><span>最高检索分</span><b>{{ '%.4f'|format(result.retrieval.get('top_score', 0)) }}</b><small>min_score={{ boundaries.min_score }}</small></div>
+    <div class="kcount"><span>最高关键词覆盖率</span><b>{% if result.best_coverage is not none %}{{ '%.4f'|format(result.best_coverage) }}{% else %}—{% endif %}</b><small>{{ (result.retrieval.get('keywords') or [])|length }} 个关键词 · min_coverage={{ boundaries.min_coverage }}</small></div>
+    <div class="kcount {{ 'ok' if result.answered else 'refused' }}"><span>结论</span><b>{{ '已回答' if result.answered else '已拒答' }}</b><small>{% if result.answered %}引用 {{ result.claims|length }} 条{% else %}{{ result.refusal.get('reason_code', '') }}{% endif %}</small></div>
+  </section>
+
+  {% if result.answered %}
+  <section class="panel" id="answer">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow"><span></span>ANSWER</div>
+        <h2>作答</h2>
+      </div>
+      <span class="badge-soft ok">引用校验 {{ result.verification.get('verified', 0) }}/{{ result.claims|length }} 通过</span>
+    </div>
+    <p class="kanswer">{{ result.answer }}</p>
+    <div class="kclaims">
+      {% for claim in result.claims %}
+      <article class="kclaim">
+        <div class="kclaim-head">
+          <span class="kclaim-id">{{ claim.claim_id }}</span>
+          <b>{{ claim.doc_name }}</b>
+          <span class="kclaim-span">字符 {{ claim.start }}–{{ claim.end }}</span>
+          <span class="kclaim-meta">覆盖率 {{ '%.4f'|format(claim.coverage) }} · 检索分 {{ '%.4f'|format(claim.retrieval_score) }}</span>
+        </div>
+        <blockquote class="kclaim-quote">{{ claim.quote }}</blockquote>
+        <details class="kclaim-open">
+          <summary>展开原文上下文（span {{ claim.start }}–{{ claim.end }}）</summary>
+          <pre>…{{ claim.before }}<mark>{{ claim.quote }}</mark>{{ claim.after }}…</pre>
+        </details>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% else %}
+  <section class="panel krefusal" id="refusal">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow"><span></span>REFUSAL</div>
+        <h2>已拒答</h2>
+      </div>
+      <span class="kcode">{{ result.refusal.get('reason_code', '') }}</span>
+    </div>
+    <div class="krefusal-grid">
+      <div class="krefusal-main">
+        <p class="krefusal-detail">{{ result.refusal.get('detail', '') }}</p>
+        <p class="krefusal-note">本次没有生成任何答案句子；原因码说明：{{ result.reason_text }}。</p>
+      </div>
+      <dl class="krefusal-facts">
+        <div><dt>min_score</dt><dd>{{ result.refusal.get('thresholds', {}).get('min_score') }}</dd></div>
+        <div><dt>min_coverage</dt><dd>{{ result.refusal.get('thresholds', {}).get('min_coverage') }}</dd></div>
+        <div><dt>观测 top_score</dt><dd>{{ result.refusal.get('observed', {}).get('top_score') }}</dd></div>
+        <div><dt>观测 best_coverage</dt><dd>{{ result.refusal.get('observed', {}).get('best_coverage') }}</dd></div>
+      </dl>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="panel" id="hits">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow"><span></span>RETRIEVAL</div>
+        <h2>本次检索命中的 Top-K 片段</h2>
+      </div>
+      <span class="panel-tip">BM25 关键词通道与字符 n-gram 向量通道的加权分</span>
+    </div>
+    {% if result.hits %}
+    <div class="ktable-wrap">
+      <table class="ktable">
+        <thead><tr><th>#</th><th>来源文档</th><th>标题</th><th>字符偏移</th><th>分数</th><th>关键词 / 向量</th><th>片段词覆盖（全部问词）</th></tr></thead>
+        <tbody>
+        {% for hit in result.hits %}
+          <tr>
+            <td class="knum">{{ hit.rank }}</td>
+            <td><b>{{ hit.doc_name }}</b><div class="ksub"><code>{{ hit.chunk_id }}</code></div></td>
+            <td class="kreason">{{ hit.heading or '（无标题）' }}</td>
+            <td class="kmono">{{ hit.start }}–{{ hit.end }}</td>
+            <td class="kscore">{{ '%.4f'|format(hit.score) }}</td>
+            <td class="kmono">{{ '%.4f'|format(hit.keyword_score) }} / {{ '%.4f'|format(hit.vector_score) }}</td>
+            <td class="kmono">{{ '%.4f'|format(hit.coverage) }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="kempty">本次检索没有返回任何片段（对应 NO_HITS）。</p>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <section class="panel kboundary" id="boundary">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow"><span></span>BOUNDARY</div>
+        <h2>当前边界</h2>
+      </div>
+      <span class="badge-soft warn">小样本实测，不代表泛化能力</span>
+    </div>
+    <ul class="kboundary-list">
+      <li><b>检索与作答都是本机规则实现</b>：BM25 关键词通道 + 字符 2/3-gram 哈希向量，没有语义向量模型；同义改写只能靠关键词重合，换掉核心词仍会掉点。</li>
+      <li><b>默认阈值</b>：<code>min_score={{ boundaries.min_score }}</code>、<code>min_coverage={{ boundaries.min_coverage }}</code>、<code>max_claims={{ boundaries.max_claims }}</code>、<code>top_k={{ boundaries.top_k }}</code>、<code>chunk_chars={{ boundaries.chunk_chars }}</code>、<code>overlap={{ boundaries.overlap }}</code>。</li>
+      <li><b>本页语料</b>：仓库自带的 <code>{{ corpus.dir }}</code>，共 {{ corpus.docs }} 篇 / {{ corpus.chunks }} 个片段，规模很小，只用于演示链路。</li>
+      <li><b>12 篇 / 86 片段 + 30 条同义改写问题的实测</b>：检索命中 27/30 = <b>90.0%</b>，答案命中 9/30 = <b>30.0%</b>，引用正确 19/19 = 100%。覆盖率改为关键词口径后，答案命中从旧口径的 13.3% 提到 30.0%；默认阈值取 0.40，是因为 0.30 下不可回答问题只拒答 10/20。</li>
+      <li><b>不可回答问题 20 条的实测</b>：域外能力 4 条、跨文档 5 条、问数字 6 条、问时间 5 条；默认阈值下拒答 17/20 = 85%，原因码全部是 <code>LOW_COVERAGE</code>，没有 <code>NO_HITS</code> 或 <code>LOW_SCORE</code>。压不住的是 u12 / u14 / u15 三条问数字的题，覆盖率分别是 0.43 / 0.71 / 0.50。</li>
+      <li><b>阈值权衡</b>：0.30 答案命中 36.7%、拒答 10/20，高命中是多答 10 条不可回答问题换来的；0.35 答案 30.0%、拒答 14/20；<b>0.40 答案 30.0%、拒答 17/20</b>，是最终采用的拒答优先值；0.55 拒答 19/20，但答案命中只剩 1/30。没有任何阈值能同时保住召回和全部拒答。</li>
+      <li><b>引用正确率 100% 只说明引文可回溯</b>（切片等于原文 span），不代表答案回答了问题；问数字的题目即使覆盖率 0.71 也可能是答非所问。</li>
+      <li><b>这是自建小样本评测</b>，语料与问题都来自本仓库文档，不能外推到真实业务分布；页面上的失败案例（如「Agent 内核由哪些模块构成」）就是当前能力的真实体现。</li>
+    </ul>
+  </section>
+
+  <footer class="kfoot">
+    <div><b>说明</b>：页面结论全部来自本次 AgentRuntime 运行；运行失败会直接显示错误，不做示例数据兜底。</div>
+    <div>不联网、不写外部存储；语料只读本机 <code>{{ corpus.dir }}</code>。</div>
+  </footer>
+</main>
+</body>
+</html>

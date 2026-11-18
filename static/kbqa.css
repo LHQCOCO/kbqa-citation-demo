@@ -1,0 +1,108 @@
+/* 知识库问答演示页：沿用 app.css 的变量与基础组件，仅补布局 */
+.k-page .kmain{margin:0 auto;max-width:1360px;padding:96px 44px 70px}
+.k-page .eyebrow{font-size:10px;letter-spacing:.2em;color:#9A8C72;display:flex;align-items:center;gap:8px}
+.k-page .eyebrow span{width:26px;height:1px;background:var(--gold-2)}
+.k-page .pill.model{text-decoration:none}
+.k-page .panel{padding:26px 28px;margin-bottom:22px}
+
+.khero{display:flex;justify-content:space-between;gap:52px;align-items:flex-start;padding:10px 0 34px}
+.khero-copy h1{font-family:var(--serif);font-size:34px;font-weight:600;letter-spacing:.02em;margin:10px 0 14px}
+.khero-copy p{max-width:720px;color:#7E7566;font-size:13.5px;line-height:1.9}
+.khero-copy code{font-family:var(--mono);font-size:11.5px;color:#6B5B3E}
+.khero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.ktag{font-size:10.5px;letter-spacing:.04em;color:#6E6555;background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:99px;padding:5px 11px}
+.kstatus{min-width:340px;border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.62);box-shadow:var(--shadow);padding:18px 20px}
+.kstatus-head{font-size:10px;letter-spacing:.18em;color:#978D7C;margin-bottom:10px}
+.kstatus-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:5px 0;font-size:12px;color:#6F6759;border-bottom:1px dashed var(--line-soft)}
+.kstatus-row:last-of-type{border-bottom:0}
+.kstatus-row b{font-weight:600;color:var(--ink-3);text-align:right}
+.kstatus-row code{font-family:var(--mono);font-size:11px;color:#6B5B3E}
+.kstatus-note{font-size:11px;line-height:1.7;color:#93897A;margin:10px 0 0}
+
+.kfield{display:block}
+.kfield > span{display:block;font-size:11px;letter-spacing:.06em;color:#8D8475;margin-bottom:7px}
+.kfield > span em{font-style:normal;color:#A79B86;margin-left:6px;letter-spacing:0}
+.kfield textarea{width:100%;border:1px solid #D4CAB6;border-radius:9px;background:#FFFDF8;padding:12px 14px;font-size:13px;line-height:1.75;resize:vertical;outline:none;color:#332D26}
+.kfield textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(169,133,77,.1)}
+.kactions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.kcost{font-size:10.5px;color:#A09684;margin-left:auto}
+.kerror{display:flex;align-items:center;gap:9px;border:1px solid #E0C7C2;background:#FDF7F5;color:#9C4A2E;border-radius:8px;padding:10px 13px;font-size:12px;margin-bottom:12px}
+.kerror svg{width:15px;height:15px;flex:none}
+
+.kexamples{margin-top:20px;border-top:1px solid var(--line-soft);padding-top:16px}
+.kexamples-head{font-size:10px;letter-spacing:.16em;color:#9A8C72;margin-bottom:10px}
+.kexamples-list{display:flex;flex-direction:column;gap:6px}
+.kexample{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.kexample button{text-align:left;border:1px solid var(--line);background:rgba(255,255,255,.7);border-radius:99px;padding:5px 12px;font-size:12px;color:#4A4338;transition:.16s}
+.kexample button:hover{border-color:var(--gold);color:var(--ink);background:#FBF6EA}
+.kexample small{font-size:10.5px;color:#9C9282}
+
+.kmeta{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:18px 0}
+.kmeta > div{background:rgba(252,250,245,.92);padding:11px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.kmeta span{font-size:9.5px;letter-spacing:.12em;color:#9C9282}
+.kmeta b{font-size:11.5px;font-weight:600;color:#3D372E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.kcounts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.kcount{border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.68);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.kcount span{font-size:10px;letter-spacing:.1em;color:#948B7C}
+.kcount b{font-family:var(--serif);font-size:26px;font-weight:600;line-height:1.25}
+.kcount small{font-size:10.5px;color:#9C9282;line-height:1.5}
+.kcount.ok b{color:var(--ok)}
+.kcount.refused b{color:var(--high)}
+
+.kanswer{font-size:14px;line-height:1.9;color:#2E2821;background:#FFFDF8;border:1px solid var(--line-soft);border-left:3px solid var(--gold);border-radius:8px;padding:14px 16px;margin-bottom:18px}
+.kclaims{display:flex;flex-direction:column;gap:12px}
+.kclaim{border:1px solid var(--line-soft);border-radius:9px;padding:14px 16px;background:rgba(255,255,255,.55)}
+.kclaim-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.kclaim-id{flex:none;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#F1E7D2;font-family:var(--mono);font-size:10px;display:grid;place-items:center}
+.kclaim-head b{font-size:12.5px;color:#2F2922}
+.kclaim-span,.kclaim-meta{font-family:var(--mono);font-size:10.5px;color:#A0957E}
+.kclaim-meta{margin-left:auto}
+.kclaim-quote{margin:10px 0 8px;font-size:12.5px;line-height:1.8;color:#4D473D;border-left:2px solid #D9C7A4;padding-left:10px}
+.kclaim-open summary{cursor:pointer;font-size:11px;color:var(--gold);list-style:none}
+.kclaim-open summary::-webkit-details-marker{display:none}
+.kclaim-open summary::before{content:"▸ ";font-size:10px}
+.kclaim-open[open] summary::before{content:"▾ "}
+.kclaim-open pre{margin:8px 0 0;white-space:pre-wrap;word-break:break-word;font-family:var(--mono);font-size:11px;line-height:1.85;color:#6A6153;background:#FBF7EE;border:1px solid var(--line-soft);border-radius:7px;padding:12px 14px;max-height:260px;overflow:auto}
+.kclaim-open mark{background:rgba(201,169,107,.35);color:#2E2821;padding:0 1px}
+
+.krefusal{border-color:#E3C4BE;background:#FDF9F7}
+.kcode{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--high);background:var(--high-bg);border:1px solid #E3C4BE;border-radius:5px;padding:2px 9px}
+.krefusal-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}
+.krefusal-detail{font-size:13px;line-height:1.85;color:#3B342B}
+.krefusal-note{font-size:11.5px;line-height:1.8;color:#8B7F6D;margin-top:8px}
+.krefusal-facts{margin:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.65)}
+.krefusal-facts > div{display:flex;justify-content:space-between;gap:12px;padding:8px 12px;font-size:11.5px;border-bottom:1px solid var(--line-soft)}
+.krefusal-facts > div:last-child{border-bottom:0}
+.krefusal-facts dt{color:#948B7C}
+.krefusal-facts dd{margin:0;font-family:var(--mono);color:#3D372E}
+
+.ktable-wrap{overflow:auto;border:1px solid var(--line-soft);border-radius:9px}
+.ktable{width:100%;border-collapse:collapse;font-size:12px;line-height:1.7}
+.ktable th{background:#F4EFE4;text-align:left;font-weight:600;font-size:10.5px;letter-spacing:.04em;color:#7E7464;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.ktable td{padding:10px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:#3B342B}
+.ktable tbody tr:last-child td{border-bottom:0}
+.ktable tbody tr:nth-child(even){background:rgba(250,247,240,.55)}
+.knum{font-family:var(--mono);font-size:10.5px;color:#A09684;width:28px}
+.ksub code{font-family:var(--mono);font-size:9.5px;color:#A0957E}
+.kreason{color:#7B7263;font-size:11.5px;max-width:260px}
+.kmono{font-family:var(--mono);font-size:11px;color:#5F5749;white-space:nowrap}
+.kscore{font-family:var(--mono);font-size:12px;font-weight:600;color:#2F2922}
+.kempty{font-size:12.5px;color:#8D8474;line-height:1.9;padding:6px 0}
+
+.kboundary-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:9px}
+.kboundary-list li{font-size:12px;line-height:1.85;color:#5B5347}
+.kboundary-list code{font-family:var(--mono);font-size:11px;color:#6B5B3E;background:rgba(201,169,107,.12);border-radius:4px;padding:0 4px}
+.kboundary-list b{color:#2F2922}
+
+.kfoot{border-top:1px solid var(--line);margin-top:26px;padding-top:16px;font-size:10.5px;color:#93897A;line-height:1.9;display:flex;justify-content:space-between;gap:24px}
+.kfoot b{color:#6F6656}
+.kfoot code{font-family:var(--mono);font-size:10.5px;color:#6B5B3E}
+
+@media (max-width:1080px){
+  .khero{flex-direction:column}
+  .kstatus{width:100%}
+  .kmeta{grid-template-columns:repeat(2,1fr)}
+  .kcounts{grid-template-columns:repeat(2,1fr)}
+  .krefusal-grid{grid-template-columns:1fr}
+}
