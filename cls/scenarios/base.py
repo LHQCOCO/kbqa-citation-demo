@@ -1,4 +1,4 @@
-"""场景契约：第二个场景（如求职分析）复用同一结构即可接入。"""
+"""场景契约：新增场景复用同一结构即可接入。"""
 from __future__ import annotations
 
 from dataclasses import dataclass, field

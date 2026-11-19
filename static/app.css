@@ -1,4 +1,4 @@
-/* Contract LocalScan — 本地合同智能审阅 */
+/* 知识库问答演示 — 本地页面版式 */
 :root{
   --ink:#121B24;
   --ink-2:#1B2733;
@@ -351,7 +351,7 @@ svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke
 /* side stack */
 .side-stack{display:flex;flex-direction:column;gap:18px}
 .side-stack .panel{padding:20px 20px}
-/* 最近审阅 mini 列表（右栏·与示例卷宗统一的浅色卡） */
+/* 右栏卡片样式 */
 .recent-mini-panel{position:relative}
 .recent-mini{display:flex;flex-direction:column;gap:7px;position:relative}
 .recent-mini-row{display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:7px;cursor:pointer;transition:.16s}

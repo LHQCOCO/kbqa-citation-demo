@@ -1,7 +1,7 @@
 """KBQA 抽取式问答演示：Flask 入口。
 
 启动：python app.py  （默认 http://127.0.0.1:8765/kbqa）
-只注册知识库问答蓝图，不包含私有仓的合同审阅与求职场景。
+只注册知识库问答蓝图，不包含其他场景。
 """
 from __future__ import annotations
 

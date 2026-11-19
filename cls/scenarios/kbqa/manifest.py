@@ -1,4 +1,4 @@
-"""私有知识库问答场景装配：K1–K5 + answerer + 固定四步。"""
+"""知识库问答场景装配：K1–K5 + answerer + 固定四步。"""
 from __future__ import annotations
 
 from ..base import Scenario
@@ -28,7 +28,7 @@ def render(ctx) -> dict:
 def build_scenario(adapter=None) -> Scenario:
     return Scenario(
         name="kbqa",
-        title="私有知识库问答",
+        title="知识库问答演示",
         version="1",
         tools=tuple(TOOL_SPECS),
         roles={"answerer": ANSWERER_ROLE},

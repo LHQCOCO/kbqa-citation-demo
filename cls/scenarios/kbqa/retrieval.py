@@ -23,7 +23,7 @@ _LATIN = re.compile(r"[a-z0-9][a-z0-9_+#.\-]*")
 
 
 def tokenize(text: str) -> list[str]:
-    """中文按双字切片，拉丁按词；与合同场景的轻量口径一致，不依赖 jieba。"""
+    """中文按双字切片，拉丁按词；不依赖 jieba。"""
     text = (text or "").lower()
     out: list[str] = []
     for run in _CJK_RUN.findall(text):

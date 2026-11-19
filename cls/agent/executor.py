@@ -80,7 +80,7 @@ class Executor:
     @staticmethod
     def _budget_hit(ctx: RunContext, started: float, count_steps: bool = True) -> str:
         # max_steps 约束计划步骤数（foreach 展开的子步骤不再重复计数，
-        # 展开产生的实际工作量由 max_tool_calls 兜住），否则一份合同几十条
+        # 展开产生的实际工作量由 max_tool_calls 兜住），否则一份文档几十条
         # 命中就会在核查之前耗尽步数。
         if count_steps and int(ctx.state.get("steps", 0)) >= max(1, ctx.budget.max_steps):
             return "max_steps"

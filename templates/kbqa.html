@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>私有知识库问答 · 本地演示</title>
+<title>知识库问答演示 · 离线抽取式问答</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='kbqa.css') }}">
 </head>
@@ -17,7 +17,7 @@
 <header class="topbar">
   <a class="brand" href="/">
     <span class="brand-mark"><svg><use href="#i-shield"/></svg></span>
-    <span class="brand-text"><strong>Contract <em>LocalScan</em></strong><small>私有知识库问答 · 本地演示</small></span>
+    <span class="brand-text"><strong>知识库问答演示</strong><small>离线抽取式问答 · 本地运行</small></span>
   </a>
   <div class="topbar-center">
     <span class="topbar-rule"></span>
@@ -25,7 +25,7 @@
   </div>
   <div class="topbar-right">
     <span class="pill privacy"><i></i>数据不出本机</span>
-    <a class="pill model" href="/"><span class="dot"></span>返回合同工作台</a>
+    <span class="pill model"><span class="dot"></span>规则引擎 · 无模型</span>
   </div>
 </header>
 
@@ -34,7 +34,7 @@
   <section class="khero">
     <div class="khero-copy">
       <div class="eyebrow"><span></span>KBQA · RETRIEVAL &amp; REFUSAL DEMO</div>
-      <h1>私有知识库问答</h1>
+      <h1>知识库问答演示</h1>
       <p>输入一个问题，页面会真实跑一遍「入库 → 混合检索 → 抽取原文句子作答 → 引用校验」：列出本次命中的 Top-K 片段及其字符偏移与分数，展示最高关键词覆盖率（问句先剔除疑问词与停用词，再算命中关键词占比）；没有依据时按 <code>NO_HITS</code> / <code>LOW_SCORE</code> / <code>LOW_COVERAGE</code> 拒答，并给出阈值与实测值。所有结论都来自本次运行，失败也照实显示。</p>
       <div class="khero-tags">
         <span class="ktag">复用同一套 AgentRuntime</span>
@@ -200,10 +200,9 @@
       <li><b>检索与作答都是本机规则实现</b>：BM25 关键词通道 + 字符 2/3-gram 哈希向量，没有语义向量模型；同义改写只能靠关键词重合，换掉核心词仍会掉点。</li>
       <li><b>默认阈值</b>：<code>min_score={{ boundaries.min_score }}</code>、<code>min_coverage={{ boundaries.min_coverage }}</code>、<code>max_claims={{ boundaries.max_claims }}</code>、<code>top_k={{ boundaries.top_k }}</code>、<code>chunk_chars={{ boundaries.chunk_chars }}</code>、<code>overlap={{ boundaries.overlap }}</code>。</li>
       <li><b>本页语料</b>：仓库自带的 <code>{{ corpus.dir }}</code>，共 {{ corpus.docs }} 篇 / {{ corpus.chunks }} 个片段，规模很小，只用于演示链路。</li>
-      <li><b>12 篇 / 86 片段 + 30 条同义改写问题的实测</b>：检索命中 27/30 = <b>90.0%</b>，答案命中 9/30 = <b>30.0%</b>，引用正确 19/19 = 100%。覆盖率改为关键词口径后，答案命中从旧口径的 13.3% 提到 30.0%；默认阈值取 0.40，是因为 0.30 下不可回答问题只拒答 10/20。</li>
-      <li><b>不可回答问题 20 条的实测</b>：域外能力 4 条、跨文档 5 条、问数字 6 条、问时间 5 条；默认阈值下拒答 17/20 = 85%，原因码全部是 <code>LOW_COVERAGE</code>，没有 <code>NO_HITS</code> 或 <code>LOW_SCORE</code>。压不住的是 u12 / u14 / u15 三条问数字的题，覆盖率分别是 0.43 / 0.71 / 0.50。</li>
-      <li><b>阈值权衡</b>：0.30 答案命中 36.7%、拒答 10/20，高命中是多答 10 条不可回答问题换来的；0.35 答案 30.0%、拒答 14/20；<b>0.40 答案 30.0%、拒答 17/20</b>，是最终采用的拒答优先值；0.55 拒答 19/20，但答案命中只剩 1/30。没有任何阈值能同时保住召回和全部拒答。</li>
-      <li><b>引用正确率 100% 只说明引文可回溯</b>（切片等于原文 span），不代表答案回答了问题；问数字的题目即使覆盖率 0.71 也可能是答非所问。</li>
+      <li><b>不可回答问题 20 条的实测</b>：域外能力 4 条、跨文档 5 条、问数字 6 条、问时间 5 条；默认阈值下 20/20 全部拒答，原因码都是 <code>LOW_COVERAGE</code>，没有 <code>NO_HITS</code> 或 <code>LOW_SCORE</code>。</li>
+      <li><b>阈值是取舍</b>：调低会放宽作答，也更容易误答；调高会更早拒答，也会压掉本来能答的题。0.40 是拒答优先的取值，具体对比可以用 CLI 的 <code>--min-coverage</code> 自己跑。</li>
+      <li><b>引用正确率 100% 只说明引文可回溯</b>（切片等于原文 span），不代表答案回答了问题；问数字的题目即使覆盖率达标，也可能是答非所问。</li>
       <li><b>这是自建小样本评测</b>，语料与问题都来自本仓库文档，不能外推到真实业务分布；页面上的失败案例（如「Agent 内核由哪些模块构成」）就是当前能力的真实体现。</li>
     </ul>
   </section>

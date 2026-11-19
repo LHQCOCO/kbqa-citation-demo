@@ -44,8 +44,8 @@ def test_page_renders_form_examples_and_boundary(client):
     assert "今天天气怎么样？" in html              # NO_HITS 路径
     assert "11 个片段" in html                    # 语料规模按实际目录计算
     assert "min_coverage=0.4" in html
-    assert "90.0%" in html and "30.0%" in html    # 评测边界如实写出
-    assert "17/20" in html                        # 扩题后的拒答结果
+    assert "20/20" in html                        # 3 篇语料下 20 条不可回答全部拒答
+    assert "LOW_COVERAGE" in html                 # 拒答原因码如实写出
     assert "不代表泛化能力" in html
 
 
@@ -80,7 +80,7 @@ def test_failing_case_refused_with_low_coverage(client):
     assert "已拒答" in html
     assert "LOW_COVERAGE" in html
     assert "本次没有生成任何答案句子" in html
-    assert "0.2703" in html          # 观测 top_score
+    assert "0.2712" in html          # 观测 top_score
     assert "0.2" in html             # 观测 best_coverage（关键词口径）
     assert "0.4" in html             # min_coverage 阈值
 

@@ -78,7 +78,7 @@ def _run_once(args, question: str) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="离线私有知识库问答")
+    parser = argparse.ArgumentParser(description="离线知识库问答")
     parser.add_argument("--docs", nargs="+", default=["samples/kb"],
                         help="md/txt 文件或目录")
     parser.add_argument("--question", default="", help="单次问题")

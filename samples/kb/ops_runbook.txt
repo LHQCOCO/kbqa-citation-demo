@@ -2,7 +2,7 @@
 
 单次问答命令是 python -m cls.scenarios.kbqa.cli。
 批量评测命令是 python -m cls.scenarios.kbqa.cli --eval samples/kb/qa_set.jsonl。
-运行数据默认写在项目下的 data 目录，可用环境变量 CLS_DATA_DIR 指向其他位置。
+运行数据默认写在项目下的 data 目录，可用环境变量 KBQA_DATA_DIR 指向其他位置。
 trace 默认写入 data/agent_traces，每个 run 一个 JSONL 文件。
 命令行参数 --min-score 控制最低检索分，--min-coverage 控制最低词覆盖。
 把 --min-score 调高会让系统更早拒答。

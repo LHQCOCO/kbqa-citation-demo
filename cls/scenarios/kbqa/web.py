@@ -45,7 +45,7 @@ EXAMPLE_QUESTIONS = [
      "note": "失败案例：原文用「运行时 / 组件」，关键词覆盖 0.20 低于阈值 → LOW_COVERAGE"},
     {"question": "知识库是否支持多租户隔离？",
      "note": "失败案例：域外问题，关键词只对上四分之一 → LOW_COVERAGE"},
-    {"question": "知识库问答和合同审阅这两个场景，默认预算哪个更宽松？",
+    {"question": "知识库问答和工单系统这两个场景，默认预算哪个更宽松？",
      "note": "跨文档问题：词能命中单篇，但没有一篇答得了 → LOW_COVERAGE"},
     {"question": "今天天气怎么样？",
      "note": "拒答路径：完全没有命中 → NO_HITS"},

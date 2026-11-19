@@ -24,8 +24,8 @@ echo "==> 3/3 后续手动步骤（浏览器建仓，然后推送）"
 cat <<'TXT'
 1. 浏览器打开 https://github.com/new
 2. 仓库名建议：kbqa-citation-demo，选择 Public，不要勾选 README/.gitignore/LICENSE 模板
-3. 建好后在本目录执行：
-     git remote add origin git@github.com:<你的账号>/kbqa-citation-demo.git
+3. 建好后复制仓库页面给出的 SSH 地址，在本目录执行：
+     git remote add origin <粘贴仓库地址>
      git push -u origin main
 4. 推送后到 Actions 页面确认 Ubuntu / Python 3.11 与 3.12 两个 job 都变绿
 TXT
