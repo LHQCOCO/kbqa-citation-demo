@@ -27,7 +27,7 @@ python app.py
 ## 语料：12 篇可公开分发的文档
 
 `samples/kb/` 下 12 篇中文技术文档，全部来自公开项目，合计 **42,892 字符 / 185 个片段**
-（旧版 3 篇内部示例语料为 2,178 字符 / 11 个片段，保留在 `samples/kb_legacy/` 用于复现旧数字）。
+（旧版 3 篇自写示例语料为 2,178 字符 / 11 个片段，保留在 `samples/kb_legacy/` 用于复现旧数字）。
 完整机器可读清单见 [samples/corpus_manifest.json](samples/corpus_manifest.json)。
 
 | 文件 | 主题 | 来源 | 许可 | 字符 | 片段 |
