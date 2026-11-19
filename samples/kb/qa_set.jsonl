@@ -1,30 +1,30 @@
-{"id": "q01", "doc": "agent_runtime.md", "question": "Agent 运行时由哪五个组件组成？", "answer_text": "它由 Planner、Executor、ToolRegistry、Trace 与 EvidenceChecker 五个组件组成。"}
-{"id": "q02", "doc": "agent_runtime.md", "question": "Planner 只产出什么，不直接执行工具？", "answer_text": "Planner 只产出步骤序列，不直接执行工具，也不读取业务数据。"}
-{"id": "q03", "doc": "agent_runtime.md", "question": "Executor 按什么顺序执行步骤？", "answer_text": "Executor 按 depends_on 声明的依赖顺序执行步骤，并统一处理预算、重试与失败隔离。"}
-{"id": "q04", "doc": "agent_runtime.md", "question": "ToolRegistry 调用工具前做什么？", "answer_text": "ToolRegistry 在调用工具前做参数校验，并统计每个工具的调用次数。"}
-{"id": "q05", "doc": "agent_runtime.md", "question": "Trace 把运行写成什么格式？", "answer_text": "Trace 把一次运行写成 JSONL，每一行是一个事件。"}
-{"id": "q06", "doc": "agent_runtime.md", "question": "EvidenceChecker 参与规则评分吗？", "answer_text": "EvidenceChecker 只做证据定位与一致性判断，不参与规则评分。"}
-{"id": "q07", "doc": "agent_runtime.md", "question": "默认预算包含多少个步骤和多少次工具调用？", "answer_text": "默认预算是 20 个步骤、60 次工具调用、180 秒墙钟时间与 20000 个 token。"}
-{"id": "q08", "doc": "agent_runtime.md", "question": "预算耗尽时执行器把已有产物按什么状态返回？", "answer_text": "预算耗尽时，执行器停止后续步骤，并把已有产物按 partial 状态返回。"}
-{"id": "q09", "doc": "agent_runtime.md", "question": "单个工具默认超时是多少秒？", "answer_text": "单个工具的超时由 ToolSpec.timeout_s 控制，默认值是 10 秒。"}
-{"id": "q10", "doc": "agent_runtime.md", "question": "foreach 默认最多展开多少条？", "answer_text": "foreach 默认最多展开 12 条，超出部分会被截断并记录 TRUNCATED 事件。"}
-{"id": "q11", "doc": "kbqa_design.md", "question": "第一版支持哪些文档格式？", "answer_text": "第一版只支持 md 与 txt 两种格式，不支持 docx 与 pdf。"}
-{"id": "q12", "doc": "kbqa_design.md", "question": "切片默认把每个片段控制在多少字符，重叠多少字符？", "answer_text": "切片默认把每个片段控制在 400 个字符，相邻片段重叠 60 个字符。"}
-{"id": "q13", "doc": "kbqa_design.md", "question": "每个片段如何保留原文偏移？", "answer_text": "每个片段都保留原文绝对字符偏移，并满足原文从起点到终点的子串等于片段正文。"}
-{"id": "q14", "doc": "kbqa_design.md", "question": "关键词通道与向量通道的默认权重是多少？", "answer_text": "检索由关键词通道与向量通道组成，两个通道的默认权重都是 0.5。"}
-{"id": "q15", "doc": "kbqa_design.md", "question": "BM25 的 k1 和 b 参数是多少？", "answer_text": "关键词通道使用自实现 BM25，参数 k1 为 1.2，b 为 0.75。"}
-{"id": "q16", "doc": "kbqa_design.md", "question": "向量通道用什么方法计算相似度？", "answer_text": "向量通道把字符二元与三元组做 TF-IDF，再用带符号哈希压到 512 维后计算余弦相似度。"}
-{"id": "q17", "doc": "kbqa_design.md", "question": "向量通道具备语义泛化能力吗？", "answer_text": "向量通道没有使用预训练模型，因此不具备同义改写的语义泛化能力。"}
-{"id": "q18", "doc": "kbqa_design.md", "question": "中文分词采用什么方式？", "answer_text": "中文分词采用双字切片，不依赖 jieba 等外部词典。"}
-{"id": "q19", "doc": "kbqa_design.md", "question": "检索默认返回多少条片段？", "answer_text": "检索默认返回前 8 条片段，并给出每条的 span 与分通道得分。"}
-{"id": "q20", "doc": "kbqa_design.md", "question": "答案是如何从检索片段中产生的？", "answer_text": "答案只从检索片段中抽取原句，不生成原文里没有的表述。"}
-{"id": "q21", "doc": "kbqa_design.md", "question": "每条结论必须带哪些字段？", "answer_text": "每条结论必须带 doc_id、chunk_id、原文引用与字符偏移。"}
-{"id": "q22", "doc": "kbqa_design.md", "question": "默认拒答阈值的 min_score 和 min_coverage 是多少？", "answer_text": "默认拒答阈值是 min_score 等于 0.12，min_coverage 等于 0.40。"}
-{"id": "q23", "doc": "kbqa_design.md", "question": "最高检索分低于阈值时拒答原因码是什么？", "answer_text": "最高检索分低于 min_score 时，拒答原因码是 LOW_SCORE。"}
-{"id": "q24", "doc": "kbqa_design.md", "question": "句子的问题词覆盖低于阈值时拒答原因码是什么？", "answer_text": "句子的关键词覆盖低于 min_coverage 时，拒答原因码是 LOW_COVERAGE。"}
-{"id": "q25", "doc": "kbqa_design.md", "question": "检索没有返回片段时拒答原因码是什么？", "answer_text": "检索没有返回片段时，拒答原因码是 NO_HITS。"}
-{"id": "q26", "doc": "kbqa_design.md", "question": "所有结论都未通过引用校验时拒答原因码是什么？", "answer_text": "所有结论都未通过引用校验时，拒答原因码是 CITATION_INVALID。"}
-{"id": "q27", "doc": "kbqa_design.md", "question": "拒答结果会返回什么内容便于解释？", "answer_text": "拒答结果会同时返回阈值与实测值，便于解释为什么没有作答。"}
-{"id": "q28", "doc": "kbqa_design.md", "question": "这份小型问答集可以外推到真实业务吗？", "answer_text": "这份问答集是自建小样本，只能用于回归，不能外推到真实业务。"}
-{"id": "q29", "doc": "ops_runbook.txt", "question": "单次问答命令是什么？", "answer_text": "单次问答命令是 python -m cls.scenarios.kbqa.cli。"}
-{"id": "q30", "doc": "ops_runbook.txt", "question": "本场景是否需要联网或 API key？", "answer_text": "本场景不联网、不下载模型、不需要 API key。"}
+{"id": "q01", "doc": "antd-intro.md", "question": "antd 是基于什么设计体系的 React UI 组件库？", "answer_text": "`antd` 是基于 Ant Design 设计体系的 React UI 组件库，适合企业级中后台产品与前台桌面网站。"}
+{"id": "q02", "doc": "antd-intro.md", "question": "antd 5.0 之后不再支持哪个浏览器？", "answer_text": "`antd 5.0` 之后不再支持 IE。"}
+{"id": "q03", "doc": "apisix-architecture.md", "question": "Apache APISIX 是什么类型的网关？", "answer_text": "Apache APISIX 是一个动态、实时、高性能的云原生 API 网关。"}
+{"id": "q04", "doc": "apisix-architecture.md", "question": "APISIX 中最基础和最核心的资源对象是什么？", "answer_text": "Route（也称为路由）是 APISIX 中最基础和最核心的资源对象，APISIX 可以通过路由定义规则来匹配客户端请求，根据匹配结果加载并执行相应的插件，最后将请求转发给到指定的上游服务。"}
+{"id": "q05", "doc": "apisix-architecture.md", "question": "API 网关相当于什么，用来做什么？", "answer_text": "API 网关相当于反向代理，用于接受所有 API 的调用、整合处理这些调用所需的各种服务，并返回相应的结果。"}
+{"id": "q06", "doc": "dubbo-intro.md", "question": "Apache Dubbo 是什么框架，官方提供哪些语言的 SDK？", "answer_text": "Apache Dubbo 是一款 RPC 服务开发框架，用于解决微服务架构下的服务治理与通信问题，官方提供了 Java、Golang 等多语言 SDK 实现。"}
+{"id": "q07", "doc": "dubbo-intro.md", "question": "Dubbo 在哪一年被正式捐献 Apache 软件基金会并成为顶级项目？", "answer_text": "在 2017 年，Dubbo 被正式捐献 Apache 软件基金会并成为 Apache 顶级项目，开始了一段新的征程。"}
+{"id": "q08", "doc": "react-state.md", "question": "在 React 中，组件特有的记忆被称为什么？", "answer_text": "在 React 中，这种组件特有的记忆被称为 **state**。"}
+{"id": "q09", "doc": "react-state.md", "question": "useState 返回的数组总是正好有几项？", "answer_text": "`useState` 返回的数组总是正好有两项。"}
+{"id": "q10", "doc": "vue-reactivity.md", "question": "在 Vue 3 中，数据是基于什么实现响应式的？", "answer_text": "在 Vue 3 中，数据是基于 JavaScript Proxy (代理) 实现响应式的。"}
+{"id": "q11", "doc": "vue-reactivity.md", "question": "ref() 接收参数后把它包裹在什么样的对象中返回？", "answer_text": "`ref()` 接收参数，并将其包裹在一个带有 `.value` 属性的 ref 对象中返回："}
+{"id": "q12", "doc": "vue-reactivity.md", "question": "修改响应式状态后，DOM 更新是同步的吗？", "answer_text": "但是需要注意的是，DOM 更新不是同步的。"}
+{"id": "q13", "doc": "fastapi-first-steps.md", "question": "FastAPI 是直接从哪个类继承的？", "answer_text": "`FastAPI` 是直接从 `Starlette` 继承的类。"}
+{"id": "q14", "doc": "fastapi-first-steps.md", "question": "FastAPI 的交互式 API 文档由哪个工具提供？", "answer_text": "你将会看到自动生成的交互式 API 文档（由 Swagger UI 提供）："}
+{"id": "q15", "doc": "fastapi-first-steps.md", "question": "把 FastAPI 应用部署到 FastAPI Cloud 用哪条命令？", "answer_text": "用一条命令将你的应用部署到 **FastAPI Cloud**：`fastapi deploy`。"}
+{"id": "q16", "doc": "k8s-pod-lifecycle.md", "question": "Pod 在其生命周期中会被调度几次？", "answer_text": "Pod 在其生命周期中只会被调度一次。"}
+{"id": "q17", "doc": "k8s-pod-lifecycle.md", "question": "Kubernetes 保证替换 Pod 被调度到与旧 Pod 相同的节点吗？", "answer_text": "Kubernetes 不保证现有 Pod 的替换 Pod 会被调度到与被替换的旧 Pod 相同的节点。"}
+{"id": "q18", "doc": "k8s-pod-lifecycle.md", "question": "Pod 被赋予的体面终止期限默认是多少秒？", "answer_text": "Pod 被赋予一个可以体面终止的期限，默认为 30 秒。"}
+{"id": "q19", "doc": "k8s-service.md", "question": "Service API 是一种什么样的抽象？", "answer_text": "Service API 是 Kubernetes 的组成部分，它是一种抽象，帮助你将 Pod 集合在网络上公开出去。"}
+{"id": "q20", "doc": "k8s-service.md", "question": "Service 的默认协议是什么？", "answer_text": "Service 的默认协议是 TCP；"}
+{"id": "q21", "doc": "mdn-http-overview.md", "question": "HTTP 是一种用作获取什么资源的协议？", "answer_text": "**HTTP** 是一种用作获取诸如 HTML 文档这类资源的协议。"}
+{"id": "q22", "doc": "mdn-http-overview.md", "question": "HTTP 是无状态的吗，同一个连接里的两个成功请求有关系吗？", "answer_text": "HTTP 是无状态的：在同一个连接中，两个执行成功的请求之间是没有关系的。"}
+{"id": "q23", "doc": "mdn-http-overview.md", "question": "在最常用的传输协议里，TCP 和 UDP 哪个可靠？", "answer_text": "在互联网两个最常用的传输协议中，TCP 是可靠的而 UDP 不是。"}
+{"id": "q24", "doc": "mdn-promise.md", "question": "Promise 是一个什么对象，代表什么？", "answer_text": "Promise 是一个对象，它代表了一个异步操作的最终完成或者失败。"}
+{"id": "q25", "doc": "mdn-promise.md", "question": "catch(failureCallback) 等同于什么写法？", "answer_text": "`catch(failureCallback)` 等同于 `then(null, failureCallback)`"}
+{"id": "q26", "doc": "mdn-promise.md", "question": "用来并发异步操作的四个组合工具是哪四个？", "answer_text": "有四个组合工具可用来并发异步操作：Promise.all()、Promise.allSettled()、Promise.any() 和 Promise.race()。"}
+{"id": "q27", "doc": "rust-ownership.md", "question": "Rust 中的每一个值都有一个被称为什么的变量？", "answer_text": "Rust 中的每一个值都有一个被称为其 **所有者**（*owner*）的变量。"}
+{"id": "q28", "doc": "rust-ownership.md", "question": "Rust 在什么位置自动调用 drop？", "answer_text": "Rust 在结尾的 `}` 处自动调用 `drop`。"}
+{"id": "q29", "doc": "doris-concepts.md", "question": "Apache Doris 采用什么层级结构来管理数据？", "answer_text": "Apache Doris 采用 **Catalog → Database → Table** 三层层级结构来管理数据。"}
+{"id": "q30", "doc": "doris-concepts.md", "question": "MPP 是什么架构，用来做什么？", "answer_text": "**MPP** 是大规模并行处理架构，用于执行复杂查询。"}

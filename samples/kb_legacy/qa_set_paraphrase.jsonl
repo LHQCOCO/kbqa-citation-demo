@@ -1,0 +1,30 @@
+{"id": "q01", "doc": "agent_runtime.md", "question": "这套 Agent 框架有哪些组成部分？", "answer_text": "它由 Planner、Executor、ToolRegistry、Trace 与 EvidenceChecker 五个组件组成。"}
+{"id": "q02", "doc": "agent_runtime.md", "question": "Planner 的职责是什么，它为什么不能直接调工具？", "answer_text": "Planner 只产出步骤序列，不直接执行工具，也不读取业务数据。"}
+{"id": "q03", "doc": "agent_runtime.md", "question": "Executor 依据什么来决定步骤的先后？", "answer_text": "Executor 按 depends_on 声明的依赖顺序执行步骤，并统一处理预算、重试与失败隔离。"}
+{"id": "q04", "doc": "agent_runtime.md", "question": "ToolRegistry 在工具被调用之前会做哪些处理？", "answer_text": "ToolRegistry 在调用工具前做参数校验，并统计每个工具的调用次数。"}
+{"id": "q05", "doc": "agent_runtime.md", "question": "运行记录 Trace 落盘时采用哪种文件格式？", "answer_text": "Trace 把一次运行写成 JSONL，每一行是一个事件。"}
+{"id": "q06", "doc": "agent_runtime.md", "question": "EvidenceChecker 会不会影响规则打分？", "answer_text": "EvidenceChecker 只做证据定位与一致性判断，不参与规则评分。"}
+{"id": "q07", "doc": "agent_runtime.md", "question": "默认情况下，步数和工具调用次数分别上限是多少？", "answer_text": "默认预算是 20 个步骤、60 次工具调用、180 秒墙钟时间与 20000 个 token。"}
+{"id": "q08", "doc": "agent_runtime.md", "question": "预算用完后，已经产出的内容会以什么状态交回？", "answer_text": "预算耗尽时，执行器停止后续步骤，并把已有产物按 partial 状态返回。"}
+{"id": "q09", "doc": "agent_runtime.md", "question": "一个工具默认多久超时？", "answer_text": "单个工具的超时由 ToolSpec.timeout_s 控制，默认值是 10 秒。"}
+{"id": "q10", "doc": "agent_runtime.md", "question": "foreach 展开子步骤时默认的上限是多少条？", "answer_text": "foreach 默认最多展开 12 条，超出部分会被截断并记录 TRUNCATED 事件。"}
+{"id": "q11", "doc": "kbqa_design.md", "question": "这个版本能读入哪几种文件类型？", "answer_text": "第一版只支持 md 与 txt 两种格式，不支持 docx 与 pdf。"}
+{"id": "q12", "doc": "kbqa_design.md", "question": "默认的片段长度和相邻重叠分别是多少字符？", "answer_text": "切片默认把每个片段控制在 400 个字符，相邻片段重叠 60 个字符。"}
+{"id": "q13", "doc": "kbqa_design.md", "question": "片段的字符位置是怎么和原文对上的？", "answer_text": "每个片段都保留原文绝对字符偏移，并满足原文从起点到终点的子串等于片段正文。"}
+{"id": "q14", "doc": "kbqa_design.md", "question": "两路召回默认各占多少权重？", "answer_text": "检索由关键词通道与向量通道组成，两个通道的默认权重都是 0.5。"}
+{"id": "q15", "doc": "kbqa_design.md", "question": "BM25 里 k1、b 两个参数取值是多少？", "answer_text": "关键词通道使用自实现 BM25，参数 k1 为 1.2，b 为 0.75。"}
+{"id": "q16", "doc": "kbqa_design.md", "question": "向量那一路是如何度量相关性的？", "answer_text": "向量通道把字符二元与三元组做 TF-IDF，再用带符号哈希压到 512 维后计算余弦相似度。"}
+{"id": "q17", "doc": "kbqa_design.md", "question": "这套向量召回能理解换了说法的同义句吗？", "answer_text": "向量通道没有使用预训练模型，因此不具备同义改写的语义泛化能力。"}
+{"id": "q18", "doc": "kbqa_design.md", "question": "中文文本是怎么切词的？", "answer_text": "中文分词采用双字切片，不依赖 jieba 等外部词典。"}
+{"id": "q19", "doc": "kbqa_design.md", "question": "一次检索默认给出几条结果？", "answer_text": "检索默认返回前 8 条片段，并给出每条的 span 与分通道得分。"}
+{"id": "q20", "doc": "kbqa_design.md", "question": "最终答案是怎么从召回内容里拿到的？", "answer_text": "答案只从检索片段中抽取原句，不生成原文里没有的表述。"}
+{"id": "q21", "doc": "kbqa_design.md", "question": "一条结论需要附上哪些定位信息？", "answer_text": "每条结论必须带 doc_id、chunk_id、原文引用与字符偏移。"}
+{"id": "q22", "doc": "kbqa_design.md", "question": "默认的两个拒答门槛分别设成多少？", "answer_text": "默认拒答阈值是 min_score 等于 0.12，min_coverage 等于 0.40。"}
+{"id": "q23", "doc": "kbqa_design.md", "question": "检索分不够而拒答时，返回的原因码叫什么？", "answer_text": "最高检索分低于 min_score 时，拒答原因码是 LOW_SCORE。"}
+{"id": "q24", "doc": "kbqa_design.md", "question": "候选句子覆盖不足导致的拒答用哪个码？", "answer_text": "句子的关键词覆盖低于 min_coverage 时，拒答原因码是 LOW_COVERAGE。"}
+{"id": "q25", "doc": "kbqa_design.md", "question": "一条结果都没召回到时，拒答码是什么？", "answer_text": "检索没有返回片段时，拒答原因码是 NO_HITS。"}
+{"id": "q26", "doc": "kbqa_design.md", "question": "引用全部校验失败时会给出哪个拒答码？", "answer_text": "所有结论都未通过引用校验时，拒答原因码是 CITATION_INVALID。"}
+{"id": "q27", "doc": "kbqa_design.md", "question": "拒绝回答时会附带哪些信息来解释原因？", "answer_text": "拒答结果会同时返回阈值与实测值，便于解释为什么没有作答。"}
+{"id": "q28", "doc": "kbqa_design.md", "question": "这套小样本评测能代表线上真实分布吗？", "answer_text": "这份问答集是自建小样本，只能用于回归，不能外推到真实业务。"}
+{"id": "q29", "doc": "ops_runbook.txt", "question": "只问一个问题时该敲什么命令？", "answer_text": "单次问答命令是 python -m cls.scenarios.kbqa.cli。"}
+{"id": "q30", "doc": "ops_runbook.txt", "question": "用这个场景要不要连网或者配置密钥？", "answer_text": "本场景不联网、不下载模型、不需要 API key。"}

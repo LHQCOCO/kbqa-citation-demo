@@ -35,19 +35,19 @@ REASON_TEXT = {
 }
 
 EXAMPLE_QUESTIONS = [
-    {"question": "默认预算包含多少个步骤和多少次工具调用？",
-     "note": "成功案例：答案整句来自 agent_runtime.md"},
-    {"question": "默认拒答阈值的 min_score 和 min_coverage 是多少？",
-     "note": "成功案例：答案整句来自 kbqa_design.md"},
-    {"question": "第一版支持哪些文档格式？",
-     "note": "成功案例：问法换了词，关键词覆盖 0.57 仍达标"},
-    {"question": "Agent 内核由哪些模块构成",
-     "note": "失败案例：原文用「运行时 / 组件」，关键词覆盖 0.20 低于阈值 → LOW_COVERAGE"},
-    {"question": "知识库是否支持多租户隔离？",
-     "note": "失败案例：域外问题，关键词只对上四分之一 → LOW_COVERAGE"},
-    {"question": "知识库问答和工单系统这两个场景，默认预算哪个更宽松？",
+    {"question": "Apache APISIX 是什么类型的网关？",
+     "note": "成功案例：答案整句来自 apisix-architecture.md"},
+    {"question": "Pod 被赋予的体面终止期限默认是多少秒？",
+     "note": "成功案例：答案整句来自 k8s-pod-lifecycle.md"},
+    {"question": "Vue 3 的响应式底层依赖 JavaScript 的哪个特性？",
+     "note": "成功案例：问法换了词，关键词覆盖 0.50 仍达标"},
+    {"question": "Pod 正常关闭前会预留多久？",
+     "note": "失败案例：原文说「体面终止…默认为 30 秒」，关键词覆盖 0.3333 低于阈值 → LOW_COVERAGE"},
+    {"question": "这个知识库系统支持多租户隔离吗？",
+     "note": "失败案例：域外问题，关键词只对上 0.1818 → LOW_COVERAGE"},
+    {"question": "Vue 和 React 的响应式实现原理有什么本质差异？",
      "note": "跨文档问题：词能命中单篇，但没有一篇答得了 → LOW_COVERAGE"},
-    {"question": "今天天气怎么样？",
+    {"question": "股票明天会涨吗？",
      "note": "拒答路径：完全没有命中 → NO_HITS"},
 ]
 

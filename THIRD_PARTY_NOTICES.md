@@ -15,10 +15,27 @@ Python 标准库（`re`、`json`、`hashlib`、`sqlite3` 等）不在上表重�
 
 ## 二、示例数据
 
-1. `samples/kb/agent_runtime.md`、`kbqa_design.md`、`ops_runbook.txt`
-   为本项目编写的示例知识库文档，不含第三方版权文本。
-2. `samples/kb/qa_set*.jsonl` 为项目自建的评测问题集，答案指向上述示例文档的原文句子。
-3. 示例中的技术名词（BM25、Ed25519 等）仅为通用术语，不包含对应实现的代码或文档。
+1. `samples/kb/` 下 12 篇语料来自公开技术文档，逐篇来源、仓库文件、许可证与节选范围见
+   `samples/corpus_manifest.json`，许可分布如下：
+
+   | 许可证 | 文档 |
+   |---|---|
+   | CC BY 4.0 | Vue 中文文档、React 中文文档、Kubernetes 中文文档（Pod 生命周期 / Service） |
+   | CC BY-SA 2.5 | MDN Web Docs（HTTP 概述 / 使用 Promise） |
+   | MIT | Ant Design、FastAPI 中文文档 |
+   | MIT OR Apache-2.0 | Rust 程序设计语言 中文版 |
+   | Apache-2.0 | Apache APISIX、Apache Dubbo、Apache Doris |
+
+   这些文档只做了去代码块/去短代码、合并软换行、按章节节选，未改动原意。
+   再分发时请保留各项目的署名与许可声明；CC BY-SA 文档的衍生内容需沿用相同许可。
+
+2. `samples/kb/qa_set*.jsonl` 为针对上述 12 篇语料自建的评测问题集，
+   答案指向语料中的原文句子。
+
+3. `samples/kb_legacy/` 下的 3 篇文档与问题集为本项目早期自写示例，不含第三方版权文本，
+   仅保留用于复现旧版数字。
+
+4. 示例中的技术名词（BM25、Proxy、Promise 等）仅为通用术语，不包含对应实现的代码或文档。
 
 ## 三、页面资源
 

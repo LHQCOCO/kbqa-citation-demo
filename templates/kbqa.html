@@ -66,7 +66,7 @@
     <form class="kform" method="post" action="{{ url_for('kbqa.kbqa_ask') }}">
       <label class="kfield">
         <span>问题 <em>必填 · 不超过 {{ max_question_chars }} 字</em></span>
-        <textarea name="question" rows="3" placeholder="例如：默认预算包含多少个步骤和多少次工具调用？">{{ question }}</textarea>
+        <textarea name="question" rows="3" placeholder="例如：Apache APISIX 是什么类型的网关？">{{ question }}</textarea>
       </label>
       <div class="kactions">
         <button class="btn primary lg" type="submit">提问</button>
@@ -199,11 +199,11 @@
     <ul class="kboundary-list">
       <li><b>检索与作答都是本机规则实现</b>：BM25 关键词通道 + 字符 2/3-gram 哈希向量，没有语义向量模型；同义改写只能靠关键词重合，换掉核心词仍会掉点。</li>
       <li><b>默认阈值</b>：<code>min_score={{ boundaries.min_score }}</code>、<code>min_coverage={{ boundaries.min_coverage }}</code>、<code>max_claims={{ boundaries.max_claims }}</code>、<code>top_k={{ boundaries.top_k }}</code>、<code>chunk_chars={{ boundaries.chunk_chars }}</code>、<code>overlap={{ boundaries.overlap }}</code>。</li>
-      <li><b>本页语料</b>：仓库自带的 <code>{{ corpus.dir }}</code>，共 {{ corpus.docs }} 篇 / {{ corpus.chunks }} 个片段，规模很小，只用于演示链路。</li>
-      <li><b>不可回答问题 20 条的实测</b>：域外能力 4 条、跨文档 5 条、问数字 6 条、问时间 5 条；默认阈值下 20/20 全部拒答，原因码都是 <code>LOW_COVERAGE</code>，没有 <code>NO_HITS</code> 或 <code>LOW_SCORE</code>。</li>
-      <li><b>阈值是取舍</b>：调低会放宽作答，也更容易误答；调高会更早拒答，也会压掉本来能答的题。0.40 是拒答优先的取值，具体对比可以用 CLI 的 <code>--min-coverage</code> 自己跑。</li>
+      <li><b>本页语料</b>：仓库自带的 <code>{{ corpus.dir }}</code>，共 {{ corpus.docs }} 篇 / {{ corpus.chunks }} 个片段，全部来自公开文档（Vue、React、Ant Design、APISIX、Dubbo、Doris、Rust、FastAPI、Kubernetes、MDN），只用于演示链路。</li>
+      <li><b>不可回答问题 20 条的实测</b>：域外能力 5 条、跨文档 5 条、问数字 5 条、问时间 5 条；默认阈值下 16/20 拒答，原因码全部是 <code>LOW_COVERAGE</code>。4 条误答（入库摘要、APISIX 与 Dubbo 服务发现对比、Ant Design 组件数量、Rust 优化等级）说明覆盖率压不住「词面命中但语义不匹配」。</li>
+      <li><b>阈值是取舍</b>：调低会放宽作答，也更容易误答；调高会更早拒答，也会压掉本来能答的题。0.40 是这批语料上的平衡点，具体对比可以用 CLI 的 <code>--min-coverage</code> 自己跑。</li>
       <li><b>引用正确率 100% 只说明引文可回溯</b>（切片等于原文 span），不代表答案回答了问题；问数字的题目即使覆盖率达标，也可能是答非所问。</li>
-      <li><b>这是自建小样本评测</b>，语料与问题都来自本仓库文档，不能外推到真实业务分布；页面上的失败案例（如「Agent 内核由哪些模块构成」）就是当前能力的真实体现。</li>
+      <li><b>这是自建小样本评测</b>，语料与问题都来自本仓库文档，不能外推到真实业务分布；页面上的失败案例（如「Pod 正常关闭前会预留多久？」）就是当前能力的真实体现。</li>
     </ul>
   </section>
 

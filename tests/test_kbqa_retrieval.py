@@ -17,6 +17,7 @@ from cls.scenarios.kbqa.tools import TOOL_SPECS
 
 ROOT = Path(__file__).resolve().parents[1]
 KB_DIR = ROOT / "samples" / "kb"
+LEGACY_DIR = ROOT / "samples" / "kb_legacy"
 DOC_FILES = sorted(p for p in KB_DIR.iterdir() if p.suffix in {".md", ".txt"})
 
 
@@ -72,11 +73,15 @@ def test_chunk_text_matches_original_slice(path):
 def test_ingest_supports_md_and_txt(registry, ctx):
     data = _ingest(registry, ctx)
     names = {d["name"] for d in data["docs"]}
-    assert len(names) == 3
-    assert any(n.endswith(".md") for n in names)
-    assert any(n.endswith(".txt") for n in names)
-    assert data["stats"]["docs"] == 3
-    assert data["stats"]["chunks"] >= 3
+    assert len(names) == 12
+    assert all(n.endswith(".md") for n in names)
+    assert data["stats"]["docs"] == 12
+    assert data["stats"]["chunks"] == 185
+
+    DOCS.clear()
+    legacy = registry.call("ingest_documents", {"paths": [str(LEGACY_DIR)]}, ctx)
+    assert legacy.ok
+    assert any(d["name"].endswith(".txt") for d in legacy.data["docs"])
 
 
 def test_ingest_rejects_unsupported_extension(registry, ctx, tmp_path):
@@ -89,21 +94,22 @@ def test_ingest_rejects_unsupported_extension(registry, ctx, tmp_path):
 
 # ---------------------------------------------------------------- 检索
 def test_search_hits_expected_chunk(registry, ctx):
-    data = _search(registry, ctx, "切片默认把每个片段控制在多少字符？", top_k=3)
+    data = _search(registry, ctx, "Pod 被赋予的体面终止期限默认是多少秒？", top_k=3)
     assert data["hits"]
     top = data["hits"][0]
-    assert "400 个字符" in top["quote"]
+    assert "默认为 30 秒" in top["quote"]
     assert top["keyword_score"] > 0
     assert top["vector_score"] > 0
 
 
 def test_search_respects_top_k_and_doc_filter(registry, ctx):
-    data = _search(registry, ctx, "检索默认返回多少条片段？", top_k=2)
+    query = "APISIX 中最基础和最核心的资源对象是什么？"
+    data = _search(registry, ctx, query, top_k=2)
     assert len(data["hits"]) == 2
 
     ingest = _ingest(registry, ctx)
-    only = ingest["doc_ids"][0]
-    filtered = registry.call("search_kb", {"query": "检索默认返回多少条片段？",
+    only = next(d["doc_id"] for d in ingest["docs"] if d["name"] == "apisix-architecture.md")
+    filtered = registry.call("search_kb", {"query": query,
                                            "doc_ids": [only], "top_k": 5}, ctx)
     assert filtered.ok
     assert filtered.data["hits"]
@@ -111,7 +117,7 @@ def test_search_respects_top_k_and_doc_filter(registry, ctx):
 
 
 def test_search_is_deterministic(registry, ctx):
-    query = "关键词通道与向量通道的默认权重是多少？"
+    query = "Rust 中的每一个值都有一个被称为什么的变量？"
     first = _search(registry, ctx, query, top_k=5)["hits"]
     second = _search(registry, ctx, query, top_k=5)["hits"]
     assert [h["chunk_id"] for h in first] == [h["chunk_id"] for h in second]

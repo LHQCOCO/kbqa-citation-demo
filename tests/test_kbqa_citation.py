@@ -16,7 +16,7 @@ from cls.scenarios.kbqa.tools import TOOL_SPECS
 
 ROOT = Path(__file__).resolve().parents[1]
 KB_DIR = ROOT / "samples" / "kb"
-QUESTION = "默认拒答阈值的 min_score 和 min_coverage 是多少？"
+QUESTION = "Apache APISIX 是什么类型的网关？"
 
 
 @pytest.fixture(autouse=True)

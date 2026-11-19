@@ -1,20 +1,20 @@
-{"id": "u01", "question": "知识库是否支持多租户隔离？", "category": "域外能力"}
-{"id": "u02", "question": "文档入库时是否会自动生成摘要？", "category": "域外能力"}
-{"id": "u03", "question": "系统是否会把向量导出到外部数据库？", "category": "域外能力"}
-{"id": "u04", "question": "知识库最多支持多少个并发用户？", "category": "数字"}
-{"id": "u05", "question": "是否支持按用户权限隔离文档？", "category": "域外能力"}
-{"id": "u06", "question": "知识库问答和工单系统这两个场景，默认预算哪个更宽松？", "category": "跨文档"}
-{"id": "u07", "question": "工单系统评测与知识库问答评测的指标能不能直接对比？", "category": "跨文档"}
-{"id": "u08", "question": "Agent 运行时的分层约束，知识库问答场景是否也必须遵守？", "category": "跨文档"}
-{"id": "u09", "question": "工单系统和知识库问答的工具清单有没有重叠？", "category": "跨文档"}
-{"id": "u10", "question": "第三方组件声明里的依赖，哪些是知识库问答运行时真正加载的？", "category": "跨文档"}
-{"id": "u11", "question": "主分支上一共有多少次提交？", "category": "数字"}
-{"id": "u12", "question": "线上服务每天平均处理多少份工单？", "category": "数字"}
-{"id": "u13", "question": "知识库问答默认允许同时处理多少个请求？", "category": "数字"}
-{"id": "u14", "question": "知识库一共部署了多少个实例？", "category": "数字"}
-{"id": "u15", "question": "这套代码一共有多少个 Python 文件？", "category": "数字"}
-{"id": "u16", "question": "Agent 运行时是哪一天合入主分支的？", "category": "时间"}
-{"id": "u17", "question": "知识库问答场景计划在哪个版本正式发布？", "category": "时间"}
-{"id": "u18", "question": "上一轮评测是在什么时候跑的？", "category": "时间"}
-{"id": "u19", "question": "访问日志多久归档一次？", "category": "时间"}
-{"id": "u20", "question": "下一次安全审计安排在什么时间？", "category": "时间"}
+{"id": "u01", "question": "这个知识库系统支持多租户隔离吗？", "category": "域外能力"}
+{"id": "u02", "question": "文档入库时会自动生成摘要吗？", "category": "域外能力"}
+{"id": "u03", "question": "索引能不能导出到外部向量数据库？", "category": "域外能力"}
+{"id": "u04", "question": "问答页面支持语音输入吗？", "category": "域外能力"}
+{"id": "u05", "question": "系统会把用户提问同步到云端做分析吗？", "category": "域外能力"}
+{"id": "u06", "question": "Vue 和 React 的响应式实现原理有什么本质差异？", "category": "跨文档才能回答"}
+{"id": "u07", "question": "APISIX 和 Dubbo 在服务发现上的设计取舍有什么不同？", "category": "跨文档才能回答"}
+{"id": "u08", "question": "同时用 FastAPI 和 Ant Design 开发时，OpenAPI 模式能直接生成前端表单吗？", "category": "跨文档才能回答"}
+{"id": "u09", "question": "Kubernetes 的 Service 与 APISIX 的 Route 在流量转发上有什么共同点？", "category": "跨文档才能回答"}
+{"id": "u10", "question": "把 Rust 的所有权思路用到 Promise 的资源清理上可行吗？", "category": "跨文档才能回答"}
+{"id": "u11", "question": "Apache APISIX 默认的连接池大小是多少？", "category": "问具体数字"}
+{"id": "u12", "question": "Apache Doris 单个集群最多支持多少个 BE 节点？", "category": "问具体数字"}
+{"id": "u13", "question": "Ant Design 一共提供了多少个组件？", "category": "问具体数字"}
+{"id": "u14", "question": "Rust 编译器的默认优化等级是几？", "category": "问具体数字"}
+{"id": "u15", "question": "Vue 3 的响应式系统默认批量更新延迟是多少毫秒？", "category": "问具体数字"}
+{"id": "u16", "question": "Vue 3.0 正式版是哪一天发布的？", "category": "问时间"}
+{"id": "u17", "question": "React 19 的发布时间是什么时候？", "category": "问时间"}
+{"id": "u18", "question": "Kubernetes 1.27 的补丁维护在什么时候结束？", "category": "问时间"}
+{"id": "u19", "question": "HTTP/2 标准是哪一年发布的？", "category": "问时间"}
+{"id": "u20", "question": "Apache Dubbo 成为顶级项目后，第一次大版本发布是在哪一年？", "category": "问时间"}

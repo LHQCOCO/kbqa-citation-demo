@@ -16,10 +16,10 @@ from cls.scenarios.kbqa.tools import TOOL_SPECS
 
 ROOT = Path(__file__).resolve().parents[1]
 KB_DIR = ROOT / "samples" / "kb"
-ANSWERABLE = "默认预算是多少？"
+ANSWERABLE = "Apache APISIX 是什么类型的网关？"
 # 关键词覆盖不满分的问法，用来验证「阈值调高就会拒答」仍然成立。
-PARTIAL = "默认预算里的步骤上限是多少？"
-UNANSWERABLE = "知识库是否支持多租户隔离？"
+PARTIAL = "API 网关相当于什么，用来做什么？"
+UNANSWERABLE = "这个知识库系统支持多租户隔离吗？"
 
 
 @pytest.fixture(autouse=True)
@@ -93,24 +93,24 @@ def test_refusal_echoes_thresholds_and_observed(registry, ctx):
 def test_coverage_ignores_interrogatives(registry, ctx):
     from cls.scenarios.kbqa.answer import question_keywords
 
-    keywords = question_keywords("默认预算是多少？")
-    assert "多少" not in keywords
-    assert {"默认", "预算"} <= set(keywords)
-    for question, word in [("这套 Agent 框架有哪些组成部分？", "哪些"),
-                           ("中文文本是怎么切词的？", "怎么"),
+    keywords = question_keywords("APISIX 是什么类型的网关？")
+    assert "什么" not in keywords
+    assert {"网关", "apisix"} <= set(keywords)
+    for question, word in [("APISIX 有哪些核心资源？", "哪些"),
+                           ("Rust 是怎么管理内存的？", "怎么"),
                            ("知识库是否支持多租户隔离？", "是否")]:
         assert word not in question_keywords(question)
 
     data = _ask(registry, ctx, ANSWERABLE)
     assert data["answered"] is True
-    assert {"默认", "预算"} <= set(data["retrieval"]["keywords"])
+    assert {"网关", "apisix"} <= set(data["retrieval"]["keywords"])
 
 
 def test_paraphrased_question_is_answered(registry, ctx):
-    # 旧口径把「分别 / 多少」也算进分母，这题覆盖率不够会被拒答。
-    data = _ask(registry, ctx, "默认的片段长度和相邻重叠分别是多少字符？")
+    # 换词问同一事实：没有逐字照抄，关键词覆盖率 0.50 仍然达标。
+    data = _ask(registry, ctx, "Vue 3 的响应式底层依赖 JavaScript 的哪个特性？")
     assert data["answered"] is True
-    assert "400 个字符" in data["claims"][0]["quote"]
+    assert "JavaScript Proxy" in data["claims"][0]["quote"]
 
 
 def test_empty_question_is_rejected(registry, ctx):

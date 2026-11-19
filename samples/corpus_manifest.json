@@ -1,0 +1,155 @@
+{
+  "fetched_at": "2026-11-19",
+  "chunking": "按 Markdown 标题分段 + 400 字符滑窗，重叠 60",
+  "documents": [
+    {
+      "file": "vue-reactivity.md",
+      "title": "响应式基础",
+      "project": "Vue.js 中文文档",
+      "source_url": "https://cn.vuejs.org/guide/essentials/reactivity-fundamentals.html",
+      "repo_file": "https://github.com/vuejs-translations/docs-zh-cn/blob/main/src/guide/essentials/reactivity-fundamentals.md",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "chars": 4242,
+      "chunks": 19,
+      "note": "节选「响应式基础」全文，去掉演练场与 API 细节"
+    },
+    {
+      "file": "react-state.md",
+      "title": "State：组件的记忆",
+      "project": "React 中文文档",
+      "source_url": "https://zh-hans.react.dev/learn/state-a-components-memory",
+      "repo_file": "https://github.com/reactjs/zh-hans.react.dev/blob/main/src/content/learn/state-a-components-memory.md",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "chars": 1382,
+      "chunks": 6,
+      "note": "节选正文与「剖析 useState」一节"
+    },
+    {
+      "file": "antd-intro.md",
+      "title": "Ant Design of React",
+      "project": "Ant Design",
+      "source_url": "https://ant.design/docs/react/introduce-cn",
+      "repo_file": "https://github.com/ant-design/ant-design/blob/master/docs/react/introduce.zh-CN.md",
+      "license": "MIT",
+      "license_url": "https://github.com/ant-design/ant-design/blob/master/LICENSE",
+      "chars": 1049,
+      "chunks": 5,
+      "note": "合并「介绍」与「在 Vite 中使用」两节"
+    },
+    {
+      "file": "apisix-architecture.md",
+      "title": "Apache APISIX 架构与核心概念",
+      "project": "Apache APISIX 文档",
+      "source_url": "https://apisix.apache.org/zh/docs/apisix/architecture-design/apisix/",
+      "repo_file": "https://github.com/apache/apisix-website/tree/master/docs/zh/latest",
+      "license": "Apache-2.0",
+      "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "chars": 1316,
+      "chunks": 5,
+      "note": "合并架构设计、术语表中的 API 网关与 Route 三节"
+    },
+    {
+      "file": "dubbo-intro.md",
+      "title": "Dubbo 介绍",
+      "project": "Apache Dubbo 文档",
+      "source_url": "https://dubbo.apache.org/zh-cn/overview/what/",
+      "repo_file": "https://github.com/apache/dubbo-website/blob/master/content/zh-cn/overview/what/_index.md",
+      "license": "Apache-2.0",
+      "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "chars": 1749,
+      "chunks": 6,
+      "note": "节选「Dubbo 介绍」正文"
+    },
+    {
+      "file": "doris-concepts.md",
+      "title": "Apache Doris 产品概念",
+      "project": "Apache Doris 文档",
+      "source_url": "https://doris.apache.org/zh-CN/docs/gettingStarted/what-is-apache-doris",
+      "repo_file": "https://github.com/apache/doris-website/tree/master/docs/zh-CN",
+      "license": "Apache-2.0",
+      "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "chars": 7342,
+      "chunks": 33,
+      "note": "节选产品概念、数据模型与 FAQ"
+    },
+    {
+      "file": "rust-ownership.md",
+      "title": "Rust 所有权",
+      "project": "Rust 程序设计语言 中文版",
+      "source_url": "https://kaisery.github.io/trpl-zh-cn/ch04-01-what-is-ownership.html",
+      "repo_file": "https://github.com/kaisery/trpl-zh-cn/blob/master/src/ch04-01-what-is-ownership.md",
+      "license": "MIT OR Apache-2.0",
+      "license_url": "https://github.com/rust-lang/book/blob/main/LICENSE-MIT",
+      "chars": 6115,
+      "chunks": 23,
+      "note": "节选第 4.1 节「什么是所有权」"
+    },
+    {
+      "file": "fastapi-first-steps.md",
+      "title": "第一步",
+      "project": "FastAPI 中文文档",
+      "source_url": "https://fastapi.tiangolo.com/zh/tutorial/first-steps/",
+      "repo_file": "https://github.com/fastapi/fastapi/blob/master/docs/zh/docs/tutorial/first-steps.md",
+      "license": "MIT",
+      "license_url": "https://github.com/fastapi/fastapi/blob/master/LICENSE",
+      "chars": 4019,
+      "chunks": 28,
+      "note": "节选「第一步」全文，去掉代码块"
+    },
+    {
+      "file": "k8s-pod-lifecycle.md",
+      "title": "Pod 的生命周期",
+      "project": "Kubernetes 中文文档",
+      "source_url": "https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/pod-lifecycle/",
+      "repo_file": "https://github.com/kubernetes/website/blob/main/content/zh-cn/docs/concepts/workloads/pods/pod-lifecycle.md",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "chars": 2976,
+      "chunks": 11,
+      "note": "节选 Pod 阶段、容器状态与体面终止"
+    },
+    {
+      "file": "k8s-service.md",
+      "title": "服务（Service）",
+      "project": "Kubernetes 中文文档",
+      "source_url": "https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/",
+      "repo_file": "https://github.com/kubernetes/website/blob/main/content/zh-cn/docs/concepts/services-networking/service.md",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "chars": 2550,
+      "chunks": 8,
+      "note": "节选 Service 定义、类型与虚拟 IP"
+    },
+    {
+      "file": "mdn-http-overview.md",
+      "title": "HTTP 概述",
+      "project": "MDN Web Docs",
+      "source_url": "https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Overview",
+      "repo_file": "https://github.com/mdn/translated-content/blob/main/files/zh-cn/web/http/overview/index.md",
+      "license": "CC BY-SA 2.5",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.5/",
+      "chars": 5240,
+      "chunks": 23,
+      "note": "节选「HTTP 概述」正文"
+    },
+    {
+      "file": "mdn-promise.md",
+      "title": "使用 Promise",
+      "project": "MDN Web Docs",
+      "source_url": "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Using_promises",
+      "repo_file": "https://github.com/mdn/translated-content/blob/main/files/zh-cn/web/javascript/guide/using_promises/index.md",
+      "license": "CC BY-SA 2.5",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.5/",
+      "chars": 4912,
+      "chunks": 18,
+      "note": "节选「使用 Promise」正文"
+    }
+  ],
+  "total": {
+    "documents": 12,
+    "chars": 42892,
+    "chunks": 185
+  }
+}
